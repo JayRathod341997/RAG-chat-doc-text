@@ -106,10 +106,10 @@ def query_documents(question, n_results=2):
     relevant_chunks = [doc for sublist in results["documents"] for doc in sublist]
     print("==== Returning relevant chunks ====")
     return relevant_chunks
-    # for idx, document in enumerate(results["documents"][0]):
-    #     doc_id = results["ids"][0][idx]
-    #     distance = results["distances"][0][idx]
-    #     print(f"Found document chunk: {document} (ID: {doc_id}, Distance: {distance})")
+    for idx, document in enumerate(results["documents"][0]):
+        doc_id = results["ids"][0][idx]
+        distance = results["distances"][0][idx]
+        print(f"Found document chunk: {document} (ID: {doc_id}, Distance: {distance})")
 
 
 # Function to generate a response from OpenAI
@@ -121,7 +121,8 @@ def generate_response(question, relevant_chunks):
         "don't know. Use three sentences maximum and keep the answer concise."
         "\n\nContext:\n" + context + "\n\nQuestion:\n" + question
     )
-
+    
+    print("prompt", prompt)
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
